@@ -1,10 +1,10 @@
 import { clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { cookies as getCookies } from 'next/headers';
 
 export async function POST(req: Request) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = getCookies();
     const token = cookieStore.get('admin-token')?.value;
 
     if (token !== process.env.ADMIN_TOKEN_SECRET) {
