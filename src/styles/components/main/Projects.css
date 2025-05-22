@@ -1,0 +1,132 @@
+        .radial-background {
+          background: radial-gradient(circle at 50% 50%, rgb(15, 23, 42), rgb(2, 6, 23));
+        }
+        
+        .hexagon-grid {
+          position: absolute;
+          inset: 0;
+          background-size: 50px 50px;
+          background-image: 
+            linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+          opacity: 0.5;
+        }
+        
+        .particles-container {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+        
+        .particle {
+          position: absolute;
+          background-color: rgba(255, 255, 255, 0.3);
+          border-radius: 50%;
+          animation: float-particle linear infinite;
+        }
+        
+        @keyframes float-particle {
+          0% {
+            transform: translate(0, 0);
+            opacity: 0;
+          }
+          25% {
+            opacity: 0.8;
+          }
+          75% {
+            opacity: 0.5;
+          }
+          100% {
+            transform: translate(100px, -100px);
+            opacity: 0;
+          }
+        }
+        
+        .floating-shape {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(80px);
+          transition: transform 0.3s ease-out;
+        }
+        
+        .shape-1 {
+          top: 20%;
+          right: 10%;
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle at center, rgba(56, 189, 248, 0.08), rgba(56, 189, 248, 0.01));
+        }
+        
+        .shape-2 {
+          bottom: 20%;
+          left: 10%;
+          width: 350px;
+          height: 350px;
+          background: radial-gradient(circle at center, rgba(168, 85, 247, 0.08), rgba(168, 85, 247, 0.01));
+        }
+        
+        .shape-3 {
+          top: 60%;
+          right: 20%;
+          width: 300px;
+          height: 300px;
+          background: radial-gradient(circle at center, rgba(236, 72, 153, 0.05), rgba(236, 72, 153, 0.01));
+        }
+        
+        .shadow-project {
+          box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7), 
+                      0 0 30px -5px rgba(56, 189, 248, 0.1);
+        }
+        
+        .shadow-glow {
+          box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+        
+        .shadow-glow-cyan {
+          box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);  
+        }
+        
+        .shadow-glow-purple {
+          box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+        }
+        
+        .shadow-glow-pink {
+          box-shadow: 0 0 10px rgba(236, 72, 153, 0.4);
+        }
+        
+        .shadow-glow-blue {
+          box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+        }
+        
+        .shadow-glow-green {
+          box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
+        
+        .shadow-glow-amber {
+          box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+        }
+        
+        .text-cyan {
+          color: #38bdf8;
+        }
+        
+        .text-purple {
+          color: #a855f7;
+        }
+        
+        .text-pink {
+          color: #ec4899;
+        }
+        
+        .text-blue {
+          color: #3b82f6;
+        }
+        
+        .text-green {
+          color: #22c55e;
+        }
+        
+        .text-amber {
+          color: #f59e0b;
+        }
+      
