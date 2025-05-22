@@ -4,7 +4,8 @@ import { cookies } from 'next/headers';
 
 export async function POST(req: Request) {
   try {
-    const token = cookies().get('admin-token')?.value;
+    const cookieStore = cookies();
+    const token = cookieStore.get('admin-token')?.value;
 
     if (token !== process.env.ADMIN_TOKEN_SECRET) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
