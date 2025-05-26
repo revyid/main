@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { clerkClient, auth } from '@clerk/nextjs/server'; // ✅ import auth
+import { auth } from '@clerk/nextjs/server';
 
 const PUBLIC_ROUTES = [
   '/',
@@ -7,59 +7,39 @@ const PUBLIC_ROUTES = [
   '/sign-up(.*)',
   '/api/ip',
   '/banned',
-  '/not-authorized',
   '/api/webhooks(.*)',
 ];
 
-const ADMIN_ROUTES = [
-  '/admin(.*)',
-  '/settings(.*)',
+// Contoh rute yang hanya bisa diakses user yang sudah login
+const PROTECTED_ROUTES = [
+  '/dashboard',
 ];
 
 export async function middleware(request: NextRequest) {
-  const { nextUrl, cookies } = request;
-  const { pathname } = nextUrl;
-  const token = cookies.get('admin-token')?.value;
-
-  // Handle admin routes
-  if (ADMIN_ROUTES.some(route => new RegExp(`^${route.replace('(.*)', '.*')}$`).test(pathname))) {
-    if (token === process.env.ADMIN_TOKEN_SECRET) {
-      if (pathname === '/admin') {
-        return NextResponse.redirect(new URL('/admin/dashboard', nextUrl));
-      }
-      return NextResponse.next();
-    }
-    if (pathname === '/admin') {
-      return NextResponse.next();
-    }
-    return NextResponse.redirect(new URL('/admin', nextUrl));
-  }
+  const { nextUrl } = request;
+  const pathname = nextUrl.pathname;
+  const authData = await auth(); // Await the auth() Promise
+  const { userId } = authData;
 
   // Handle public routes
   if (PUBLIC_ROUTES.some(route => new RegExp(`^${route.replace('(.*)', '.*')}$`).test(pathname))) {
     return NextResponse.next();
   }
 
-  try {
-    const { userId } = auth();
+  // Handle protected routes (contoh: /dashboard)
+  if (PROTECTED_ROUTES.some(route => new RegExp(`^${route}$`).test(pathname))) {
     if (!userId) {
       const signInUrl = new URL('/sign-in', nextUrl.origin);
       signInUrl.searchParams.set('redirect_url', pathname);
       return NextResponse.redirect(signInUrl);
     }
+  }
 
-    const user = await clerkClient.users.getUser(userId);
-    const isBanned = user.publicMetadata.isBanned;
-
-    if (isBanned && pathname !== '/banned') {
-      return NextResponse.redirect(new URL('/banned', nextUrl));
-    }
-  } catch (error) {
-    console.error('Middleware error:', error);
-    if (pathname.startsWith('/admin')) {
-      return NextResponse.next();
-    }
-    return NextResponse.redirect(new URL('/sign-in', nextUrl));
+  // Default Clerk auth check
+  if (!userId) {
+    const signInUrl = new URL('/sign-in', nextUrl.origin);
+    signInUrl.searchParams.set('redirect_url', pathname);
+    return NextResponse.redirect(signInUrl);
   }
 
   const response = NextResponse.next();
