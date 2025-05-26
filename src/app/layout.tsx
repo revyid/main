@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next"
 import dynamic from 'next/dynamic';
 const inter = Inter({ subsets: ['latin'] });
 const navItems = [
@@ -21,6 +22,7 @@ export default function RootLayout({ children, }: {
     return (<ClerkProvider>
       <html lang="en">
         <SpeedInsights />
+        <Analytics/>
         <body className={`${inter.className} bg-gray-950 text-white min-h-screen`}>
           <FloatingNavbar navItems={navItems}/>
           <main className="">
